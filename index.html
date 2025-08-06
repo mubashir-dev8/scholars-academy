@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name='viewport' content='width=device-width, initial-scale=1' />
+  <title>Scholars Academy - Attendance & Test Marks</title>
+  <!--Developed by Mubashir-->
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(120deg, #e0f7fa, #fff3e0);
+    }
+
+    nav {
+      background-color: #2c3e50;
+      display: flex;
+      justify-content: center;
+      padding: 10px 0;
+    }
+
+    nav button {
+      background: none;
+      border: none;
+      color: #ecf0f1;
+      padding: 10px 20px;
+      margin: 0 5px;
+      font-size: 16px;
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+    }
+
+    nav button.active {
+      border-bottom: 3px solid #1abc9c;
+      font-weight: bold;
+    }
+
+    .container {
+      padding: 20px;
+      max-width: 800px;
+      margin: auto;
+    }
+
+    h1,
+    h2 {
+      text-align: center;
+      color: #2c3e50;
+    }
+
+    .class-buttons,
+    .students-list,
+    .summary-section {
+      margin: 20px auto;
+      max-width: 600px;
+    }
+
+    .class-buttons button {
+      margin: 5px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      background: #3498db;
+      color: white;
+      border: none;
+      border-radius: 5px;
+    }
+
+    .class-buttons button:hover {
+      background: #2980b9;
+    }
+
+    .student {
+      display: flex;
+      justify-content: space-between;
+      background: #ffffff;
+      margin: 8px 0;
+      padding: 10px;
+      border-radius: 8px;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .student span {
+      flex: 1;
+    }
+
+    .student button {
+      margin-left: 10px;
+      padding: 6px 10px;
+      border: none;
+      border-radius: 5px;
+      background-color: #bdc3c7;
+      color: white;
+      cursor: pointer;
+    }
+
+    .present-selected {
+      background-color: #4caf50 !important;
+    }
+
+    .absent-selected {
+      background-color: #e74c3c !important;
+    }
+
+    #summary {
+      width: 100%;
+      height: 180px;
+      padding: 10px;
+      font-size: 14px;
+      margin-bottom: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      resize: none;
+    }
+
+    #shareBtn {
+      display: block;
+      margin: auto;
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #25D366;
+      color: white;
+      border: none;
+      border-radius: 5px;
+    }
+
+    #shareBtn:hover {
+      background-color: #1ebc5b;
+    }
+
+    /* Sections */
+    .section {
+      display: none;
+    }
+
+    .section.active {
+      display: block;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+      margin-top: 20px;
+    }
+
+    th,
+    td {
+      padding: 10px;
+      border-bottom: 1px solid #ccc;
+    }
+
+    th {
+      background: #f8f9fa;
+      text-align: left;
+    }
+
+    input[type="number"] {
+      width: 60px;
+      padding: 5px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav>
+    <button class="nav-btn active" onclick="showSection('attendanceSection', this)">📘 Attendance</button>
+    <button class="nav-btn" onclick="showSection('marksSection', this)">📝 Test Marks</button>
+  </nav>
+
+  <div class="container">
+
+    <!-- Attendance Section -->
+    <div id="attendanceSection" class="section active">
+      <h1>Scholars Aacademy</h1>
+
+      <div class="class-buttons">
+        <h2>Select Class</h2>
+        <button onclick="loadClass('5th ICSE')">5th</button>
+        <button onclick="loadClass('6th ICSE')">6th</button>
+        <button onclick="loadClass('7th ICSE')">7th</button>
+        <button onclick="loadClass('8th ICSE')">8th</button>
+        <button onclick="loadClass('9th ICSE')">I-9th</button>
+        <button onclick="loadClass('10th ICSE')">I-10th</button>
+        <button onclick="loadClass('9th SSC')">S-9th</button>
+        <button onclick="loadClass('10th SSC')">S-10th</button>
+      </div>
+
+      <div class="students-list" id="studentsList"></div>
+
+      <div class="summary-section">
+        <button onclick="generateResult()" style="width:100%; padding:10px; font-size:16px;">Get Result</button>
+        <button onclick="clearResult()" style="width:100%; padding:10px; font-size:16px;">Clear</button>
+        <textarea id="summary" placeholder="Absent and present students will appear here..." readonly></textarea>
+        <button id="shareBtn" onclick="shareOnWhatsApp()">Share on WhatsApp</button>
+      </div>
+    </div>
+
+    <!-- Test Marks Section -->
+    <div id="marksSection" class="section">
+      <h1>Feature Coming Soon...</h1>
+      <!-- <table>
+        <thead>
+          <tr>
+            <th>Student</th>
+            <th>Math</th>
+            <th>Science</th>
+            <th>English</th>
+          </tr>
+        </thead>
+        <tbody id="marksTableBody">
+          <tr>
+            <td>Nada</td>
+            <td><input type="number" min="0" max="100"></td>
+            <td><input type="number" min="0" max="100"></td>
+            <td><input type="number" min="0" max="100"></td>
+          </tr>
+          <tr>
+            <td>Faizan</td>
+            <td><input type="number" min="0" max="100"></td>
+            <td><input type="number" min="0" max="100"></td>
+            <td><input type="number" min="0" max="100"></td>
+          </tr>
+           Add more rows as needed
+         </tbody>
+      </table> -->
+    </div>
+
+  </div>
+
+  <script>
+const _0x16c4e0=_0x3287;(function(_0x4f2510,_0x5b5692){const _0x58a740=_0x3287,_0x6c8706=_0x4f2510();while(!![]){try{const _0x3364e5=-parseInt(_0x58a740(0x146))/0x1+-parseInt(_0x58a740(0x129))/0x2*(-parseInt(_0x58a740(0xde))/0x3)+-parseInt(_0x58a740(0x130))/0x4*(parseInt(_0x58a740(0xff))/0x5)+parseInt(_0x58a740(0x145))/0x6+parseInt(_0x58a740(0x152))/0x7+-parseInt(_0x58a740(0x139))/0x8+-parseInt(_0x58a740(0xec))/0x9;if(_0x3364e5===_0x5b5692)break;else _0x6c8706['push'](_0x6c8706['shift']());}catch(_0x9810c7){_0x6c8706['push'](_0x6c8706['shift']());}}}(_0x1de4,0x9c694));const studentData={'5th\x20ICSE':[_0x16c4e0(0x12f),_0x16c4e0(0x155),_0x16c4e0(0xe6)],'6th\x20ICSE':[_0x16c4e0(0x15a),_0x16c4e0(0x151),'Nurain\x20Raza',_0x16c4e0(0x120),_0x16c4e0(0xfa),_0x16c4e0(0x116),'Ansari\x20Zayn',_0x16c4e0(0x159),_0x16c4e0(0xeb)],'7th\x20ICSE':[_0x16c4e0(0x15e),_0x16c4e0(0x103),_0x16c4e0(0xf6),_0x16c4e0(0x15f),_0x16c4e0(0x117),_0x16c4e0(0xea),_0x16c4e0(0x153),'Muad\x20Shaikh',_0x16c4e0(0x168),_0x16c4e0(0xe3),_0x16c4e0(0xed),_0x16c4e0(0xfe),_0x16c4e0(0x150),_0x16c4e0(0x101),_0x16c4e0(0x13c),'Ahtesham\x20Khan'],'8th\x20ICSE':[_0x16c4e0(0x100),'Waliyah\x20Sayyad',_0x16c4e0(0x157),_0x16c4e0(0x12c),_0x16c4e0(0xf4),_0x16c4e0(0xfb),_0x16c4e0(0xee),_0x16c4e0(0x123),_0x16c4e0(0xdb),'Shaikh\x20Owais',_0x16c4e0(0x10b),_0x16c4e0(0x167),_0x16c4e0(0x143),'Gulam\x20Ghaus',_0x16c4e0(0x11d),'Faiz\x20Fahim\x20Dingankar',_0x16c4e0(0x142),_0x16c4e0(0xf1),_0x16c4e0(0x134),_0x16c4e0(0x14f),'Fazlurrehman\x20Aasi\x20shah',_0x16c4e0(0xd7),_0x16c4e0(0xd9),_0x16c4e0(0x15b),'Alishba\x20Maqsood\x20Khan',_0x16c4e0(0x111),'Talha\x20Kazi',_0x16c4e0(0xf3),_0x16c4e0(0x165),_0x16c4e0(0x161),_0x16c4e0(0x10e)],'9th\x20ICSE':[_0x16c4e0(0x102),'Beenish\x20Azfar\x20Khan','Haashir\x20Azfar\x20Khan',_0x16c4e0(0x12b),_0x16c4e0(0xdf),_0x16c4e0(0xf8),_0x16c4e0(0x160),'Hamza\x20Kazi','Zahid\x20Kazi',_0x16c4e0(0x144),_0x16c4e0(0xf7),_0x16c4e0(0xe8),_0x16c4e0(0x156),_0x16c4e0(0x11e),'Maseera\x20Latif\x20Shaikh',_0x16c4e0(0x125),_0x16c4e0(0x109),_0x16c4e0(0x13a),_0x16c4e0(0x11b)],'10th\x20ICSE':[_0x16c4e0(0x107),'Falak',_0x16c4e0(0x138),_0x16c4e0(0x14a),_0x16c4e0(0x140),'Aleeza',_0x16c4e0(0x115),_0x16c4e0(0x14e),_0x16c4e0(0x13f),_0x16c4e0(0x10c),_0x16c4e0(0x154),'Raza',_0x16c4e0(0x10d),_0x16c4e0(0xd8),'Arsalan\x20P',_0x16c4e0(0x105),_0x16c4e0(0x137),_0x16c4e0(0x112),_0x16c4e0(0xf5),_0x16c4e0(0x13d),_0x16c4e0(0xe5),_0x16c4e0(0xe0),_0x16c4e0(0xf2),_0x16c4e0(0x122),_0x16c4e0(0x148)],'9th\x20SSC':['Shahbaaz\x20Iqbal',_0x16c4e0(0x119),_0x16c4e0(0x126),_0x16c4e0(0xdd),_0x16c4e0(0x147),'Valid\x20Shaikh',_0x16c4e0(0x12a),_0x16c4e0(0x113),'Muzammil\x20Khan',_0x16c4e0(0xfd),_0x16c4e0(0x14b)],'10th\x20SSC':['Adib\x20Khan','Mohammed\x20Yasin',_0x16c4e0(0x12e),_0x16c4e0(0xd6),_0x16c4e0(0x11a),_0x16c4e0(0xe9),'Hammad',_0x16c4e0(0x14c),_0x16c4e0(0xe1),_0x16c4e0(0xfe),'Saim\x20Ansari']};let attendance={},currentClass='';function clearResult(){const _0x4ab781=_0x16c4e0;document[_0x4ab781(0x13b)](_0x4ab781(0x106))[_0x4ab781(0x15d)]='';}function loadClass(_0x40aafc){const _0x1d1764=_0x16c4e0;document['getElementById'](_0x1d1764(0x106))['value']='',attendance={},currentClass=_0x40aafc;const _0x2f7037=studentData[_0x40aafc];attendance[_0x40aafc]={};const _0x256a61=document['getElementById'](_0x1d1764(0x128));_0x256a61['innerHTML']=_0x1d1764(0x110)+_0x40aafc+_0x1d1764(0x135),_0x2f7037[_0x1d1764(0x114)](_0xb5c8a0=>{const _0x1ebe4b=_0x1d1764;attendance[_0x40aafc][_0xb5c8a0]=null;const _0x4ee17c=document[_0x1ebe4b(0x124)](_0x1ebe4b(0x14d));_0x4ee17c[_0x1ebe4b(0xe7)]=_0x1ebe4b(0x136),_0x4ee17c[_0x1ebe4b(0x10f)]='\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<span>'+_0xb5c8a0+_0x1ebe4b(0x15c)+_0xb5c8a0+_0x1ebe4b(0x163)+_0xb5c8a0+_0x1ebe4b(0x131),_0x256a61[_0x1ebe4b(0xe4)](_0x4ee17c);});}function mark(_0x3deedb,_0x138483,_0x658a8){const _0x386119=_0x16c4e0;if(!currentClass)return;attendance[currentClass][_0x3deedb]=_0x138483,(_0x658a8[_0x386119(0x132)]['querySelectorAll'](_0x386119(0xdc))[_0x386119(0x114)](_0x42ef37=>{const _0x4c478f=_0x386119;_0x42ef37['classList'][_0x4c478f(0xda)](_0x4c478f(0xf0),'absent-selected');}),'Present'===_0x138483?_0x658a8[_0x386119(0x11c)][_0x386119(0x158)](_0x386119(0xf0)):_0x658a8[_0x386119(0x11c)][_0x386119(0x158)]('absent-selected'));}function _0x3287(_0x1ac3df,_0x4eccdd){const _0x1de48a=_0x1de4();return _0x3287=function(_0x32875c,_0x4796d4){_0x32875c=_0x32875c-0xd6;let _0x39de3d=_0x1de48a[_0x32875c];return _0x39de3d;},_0x3287(_0x1ac3df,_0x4eccdd);}function generateResult(){const _0x5e087f=_0x16c4e0;let _0x943cd7='';for(let _0x33304a in attendance){const _0x4ead75=Object[_0x5e087f(0xf9)](attendance[_0x33304a]),_0x3f9bd5=_0x4ead75[_0x5e087f(0x141)](([_0x591baf,_0x323cdd])=>_0x5e087f(0x10a)===_0x323cdd)[_0x5e087f(0x162)](([_0x1c0b12])=>_0x1c0b12),_0x36f97f=_0x4ead75[_0x5e087f(0x141)](([_0x146082,_0xeaa4cc])=>'Absent'===_0xeaa4cc)[_0x5e087f(0x162)](([_0x3196e4])=>_0x3196e4);(_0x3f9bd5[_0x5e087f(0x164)]||_0x36f97f['length'])&&(_0x943cd7+=_0x5e087f(0x104)+_0x33304a+_0x5e087f(0x127)),_0x3f9bd5[_0x5e087f(0x164)]>0x0&&(_0x943cd7+=_0x5e087f(0x166)+_0x3f9bd5[_0x5e087f(0x164)]+_0x5e087f(0x13e),_0x3f9bd5['forEach']((_0x30934d,_0x300193)=>{const _0x2a29a6=_0x5e087f;_0x943cd7+=_0x2a29a6(0xfc)+(_0x300193+0x1)+'.\x20'+_0x30934d+_0x2a29a6(0x118);})),_0x36f97f[_0x5e087f(0x164)]>0x0&&(_0x943cd7+=_0x5e087f(0xe2)+_0x36f97f[_0x5e087f(0x164)]+_0x5e087f(0x13e),_0x36f97f[_0x5e087f(0x114)]((_0x444fbf,_0x2f3fa6)=>{const _0x178b3f=_0x5e087f;_0x943cd7+=_0x178b3f(0xfc)+(_0x2f3fa6+0x1)+'.\x20'+_0x444fbf+_0x178b3f(0x118);})),(_0x3f9bd5[_0x5e087f(0x164)]||_0x36f97f[_0x5e087f(0x164)])&&(_0x943cd7+='----------------------------------\x0a');}document[_0x5e087f(0x13b)](_0x5e087f(0x106))[_0x5e087f(0x15d)]=_0x943cd7[_0x5e087f(0xef)]()||'No\x20attendance\x20marked!';}function shareOnWhatsApp(){const _0xd1caf8=_0x16c4e0,_0x55afd1=document[_0xd1caf8(0x13b)](_0xd1caf8(0x106))[_0xd1caf8(0x15d)];if(!_0x55afd1['trim']())return void alert(_0xd1caf8(0x11f));const _0x44714d='https://wa.me/?text='+encodeURIComponent(_0x55afd1);window[_0xd1caf8(0x121)](_0x44714d,'_blank');}function showSection(_0x3ca422,_0x5094ca){const _0x4bde7d=_0x16c4e0;document[_0x4bde7d(0x108)](_0x4bde7d(0x133))[_0x4bde7d(0x114)](_0x77e519=>_0x77e519[_0x4bde7d(0x11c)][_0x4bde7d(0xda)](_0x4bde7d(0x12d))),document[_0x4bde7d(0x13b)](_0x3ca422)[_0x4bde7d(0x11c)]['add'](_0x4bde7d(0x12d)),document[_0x4bde7d(0x108)](_0x4bde7d(0x149))['forEach'](_0x3be688=>_0x3be688[_0x4bde7d(0x11c)][_0x4bde7d(0xda)]('active')),_0x5094ca['classList'][_0x4bde7d(0x158)](_0x4bde7d(0x12d));}function _0x1de4(){const _0x214cf3=['Muhammad\x20Sayed','open','Ali','Juveriya\x20Shaikh','createElement','Juveriya\x20Khan','Masihuddin\x20Khan','\x20Attendance\x0a','studentsList','2998mRAJbr','Rehan\x20Shaikh','Saara\x20Tabish\x20khan','Ayesha\x20Sayed','active','Mohammed\x20Mustafa','Laaibah\x20Sayyad','676NsHDpe','\x27,\x20\x27Absent\x27,\x20this)\x22>Absent</button>\x0a\x20\x20\x20\x20\x20\x20\x20\x20','parentElement','.section','Ayan\x20Mohammed\x20Ali','\x20Standard\x20-\x20Mark\x20Attendance</h2>','student','Affan','Tabassum','2613792yIwrAO','Naba\x20Khan','getElementById','Naverah\x20Khan','Ayaan\x20S','):\x0a','Asad','Rida','filter','Ahad\x20Amir\x20Mulani','Kaif\x20Khan','Ashar\x20Ansari','4210842TjsAvL','308507AIOujz','Abdullah\x20Khan','Reyhan','.nav-btn','Aroot','Anas\x20Sayed','Fahima\x20Khan','div','Eram','Rayan\x20Muhammad\x20Edakkankattil','Ayaan\x20Latif\x20Shaikh','Saad\x20Shaikh','5710852KASJMp','Yasin','Aquib','Ghulam\x20Abdul\x20Qadir\x20Khan','Ahad\x20Khan','Lishika\x20Thakur','add','Nizamuddin\x20Ansari','Arsh\x20Sardar','Aaban\x20Ali','</span>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<button\x20onclick=\x22mark(\x27','value','Ziyaad','Muznah\x20Salman\x20Khan','Umar','Moinuddin\x20Shaikh','map','\x27,\x20\x27Present\x27,\x20this)\x22>Present</button>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<button\x20onclick=\x22mark(\x27','length','Abid\x20Paloji','✅\x20Present\x20(','Razeen\x20Rafiq','Mustafa','Zunairah\x20Tehsildar','Shafaat','Ammar','Rayed','remove','Ayesha\x20Irfan\x20Malik','button','Rabiya\x20Fatma','1707vvlpRc','Saad\x20Rumani','Noor','Umme\x20Aiyman','❌\x20Absent\x20(','Arsalan\x20Imran\x20Tauseef','appendChild','Arhaan','Azhan\x20Siraj\x20Choudhary','className','Amaan\x20Pochi','Humaira\x20Qureshi','Ayaan\x20Merchant','Wahid\x20Ansari','5667876rCLzgp','Ayaan\x20Khan','Arshiya\x20Shaikh','trim','present-selected','Faraz\x20Javed\x20shaikh','Arqam','Raiyan\x20Khan','Zaina\x20usman\x20khan','Eisa','Arsh\x20Pullencheri','Affan\x20Maqsood\x20Khan','Amaan\x20Hundekar','entries','Zeeshan','Gufrana\x20Mujtaba\x20Shaikh','\x20\x20\x20','Aliya\x20Shaikh','Zaid','13755ZwIMFo','Shamiqa\x20Khan','Ayaan\x20Kumail','Zohra\x20Fatima\x20Shaikh','Ammar\x20Khan','📚\x20','Arsalan\x20M','summary','Nada','querySelectorAll','Shifa','Present','Gaus\x20Mohammed','Ahnaf','Faizan','Harikesh','innerHTML','<h2>','Akif\x20Nawde','Ayaz','Ashrafiya\x20Shaikh','forEach','Eeman','Adyan\x20Quraishi','Zahra\x20Shaikh','\x20-\x0a','Priyanshu\x20Thakur','Amaan','Zainab','classList','Arhan\x20Chaughle','Maria\x20Sayed','No\x20attendance\x20to\x20share!'];_0x1de4=function(){return _0x214cf3;};return _0x1de4();}</script>
+  <footer>---© 2025 Developed By Mubashir. All rights reserved.</footer>
+</body>
+
+</html>
