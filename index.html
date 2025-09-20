@@ -6,6 +6,7 @@
   <meta name='viewport' content='width=device-width, initial-scale=1' />
   <title>Scholars Academy - Attendance & Test Marks</title>
   <link rel="stylesheet" href="style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 
 <body>
@@ -48,6 +49,7 @@
         <button onclick="clearResult()">Clear Summary</button>
         <textarea id="summary" placeholder="Absent and present students will appear here..." readonly></textarea>
         <button id="shareBtn" onclick="shareOnWhatsApp()">Share on WhatsApp</button>
+        <button id="downloadImageBtn" onclick="downloadAttendanceImage()">Download Image</button>
       </div>
     </div>
     <!-- Test Marks Section -->
