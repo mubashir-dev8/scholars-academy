@@ -1,0 +1,289 @@
+
+    :root{
+      --bg1: #e0f7fa;
+      --bg2: #fff3e0;
+      --primary: #2c3e50;
+      --accent: #1abc9c;
+      --btn-blue: #3498db;
+      --btn-blue-dark: #2980b9;
+      --wa: #25D366;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(120deg, var(--bg1), var(--bg2));
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      color: var(--primary);
+    }
+
+    nav {
+      background-color: var(--primary);
+      display: flex;
+      justify-content: center;
+      padding: 10px 8px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    nav button {
+      background: none;
+      border: none;
+      color: #ecf0f1;
+      padding: 8px 12px;
+      margin: 0 6px;
+      font-size: 15px;
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      border-radius: 6px 6px 0 0;
+    }
+
+    nav button.active {
+      border-bottom: 3px solid var(--accent);
+      font-weight: 700;
+    }
+
+    .container {
+      padding: 18px;
+      max-width: 1000px;
+      margin: 14px auto;
+    }
+
+    h1, h2 {
+      text-align: center;
+      color: var(--primary);
+      margin: 8px 0 14px;
+    }
+
+    .class-buttons,
+    .students-list,
+    .summary-section {
+      margin: 14px auto;
+      max-width: 960px;
+    }
+
+    .class-buttons {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 16px;
+    }
+
+    .class-buttons button {
+      margin: 4px;
+      padding: 8px 14px;
+      font-size: 14px;
+      cursor: pointer;
+      background: var(--btn-blue);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      transition: transform .08s ease;
+    }
+
+    .class-buttons button:hover {
+      background: var(--btn-blue-dark);
+      transform: translateY(-1px);
+    }
+
+    .student {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #ffffff;
+      margin: 8px 0;
+      padding: 10px;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+    }
+
+    .student .name {
+      flex: 1;
+      font-weight: 700;
+      color: var(--primary);
+      font-size: 15px;
+      min-width: 0;
+    }
+
+    .time-input, .marks-input {
+      width: 140px;
+      min-width: 120px;
+      padding: 8px 10px;
+      border-radius: 8px;
+      border: 1px solid #d0d7de;
+      font-size: 14px;
+      background: #fafafa;
+    }
+
+    .marks-input.invalid {
+      border-color: #e74c3c;
+      box-shadow: 0 0 0 3px rgba(231,76,60,0.06);
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .student button {
+      width: 84px;
+      padding: 8px 6px;
+      border: none;
+      border-radius: 8px;
+      background-color: #bdc3c7;
+      color: white;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .student button:active { transform: translateY(1px); }
+
+    .present-selected {
+      background-color: #4caf50 !important;
+    }
+
+    .absent-selected {
+      background-color: #e74c3c !important;
+    }
+
+    .late-selected {
+      background-color: #f39c12 !important;
+      color: #fff;
+    }
+
+    #summary, #marksSummary {
+      width: 100%;
+      height: 220px;
+      padding: 12px;
+      font-size: 14px;
+      margin-bottom: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      resize: vertical;
+      white-space: pre-wrap;
+      overflow-wrap: break-word;
+      background: #fff;
+    }
+
+    .summary-section > button,
+    #shareMarksBtn {
+      display: block;
+      width: 100%;
+      margin: 8px 0;
+      padding: 12px;
+      font-size: 16px;
+      background-color: var(--wa);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    .summary-section > button:first-child {
+      background: var(--btn-blue);
+      margin-top: 0;
+    }
+    .summary-section > button:first-child:hover { background: var(--btn-blue-dark); }
+    #shareMarksBtn { background: var(--wa); }
+
+    .section { display: none; }
+    .section.active { display: block; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+      margin-top: 20px;
+    }
+
+    th, td { padding: 10px; border-bottom: 1px solid #eee; }
+    th { background: #f8f9fa; text-align: left; }
+
+    footer {
+      text-align: center;
+      margin: 18px 0 36px;
+      color: #666;
+      font-size: 13px;
+    }
+
+    .marks-meta {
+      display:flex;
+      gap:8px;
+      align-items:center;
+      justify-content:center;
+      flex-wrap:wrap;
+      margin-top:8px;
+    }
+    .marks-meta input {
+      padding:8px 10px;
+      border-radius:8px;
+      border:1px solid #d0d7de;
+      min-width:140px;
+      font-size:14px;
+      background:#fff;
+    }
+
+    /* ---------- Mobile / Small screens ---------- */
+    @media (max-width: 760px) {
+      .container { padding: 12px; margin: 8px auto; }
+
+      nav button { padding: 8px 10px; margin: 0 4px; font-size: 14px; }
+
+      h1 { font-size: 20px; }
+      h2 { font-size: 16px; }
+
+      .student {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+        padding: 12px;
+      }
+
+      .student .name {
+        font-size: 16px;
+        margin-bottom: 4px;
+      }
+
+      .time-input, .marks-input { width: 100%; min-width: 0; padding: 10px; font-size: 15px; }
+
+      .btn-group {
+        display: flex;
+        gap: 8px;
+        width: 100%;
+      }
+
+      .student button {
+        width: 100%;
+        padding: 10px;
+        font-size: 15px;
+      }
+
+      .class-buttons {
+        gap: 6px;
+        justify-content: center;
+      }
+
+      #summary { height: 200px; font-size: 15px; padding: 10px; }
+
+      .summary-section > button { padding: 12px; font-size: 16px; border-radius: 8px; }
+      .marks-meta input { min-width: 100%; }
+    }
+
+    /* Very small phones */
+    @media (max-width: 420px) {
+      nav { padding: 8px 6px; }
+      .student { padding: 10px; border-radius: 8px; }
+      .student .name { font-size: 15px; }
+      .time-input, .marks-input { font-size: 14px; padding: 8px; }
+      .student button { font-size: 14px; padding: 10px; }
+      #summary { height: 180px; }
+    }
