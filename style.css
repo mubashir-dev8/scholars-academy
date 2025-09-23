@@ -437,3 +437,28 @@ footer {
   border-color: #e74c3c !important;
   box-shadow: 0 0 0 4px rgba(231, 76, 60, 0.06);
 }
+
+/* .logo-wrap {
+  border: 2px solid black;
+} */
+
+.logo-wrap {
+  width: 100%;
+  max-width: 1000px;
+  /* align with your container */
+  margin: 0 auto 14px;
+  border-radius: 12px;
+  padding: 0;
+  box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
+  /* double-border / soft glow effect */
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0)) padding-box,
+    linear-gradient(90deg, #6dd5ed, #2193b0) border-box;
+  border: 2px solid transparent;
+  /* gradient border via background */
+  box-shadow: 0 10px 30px rgba(23, 23, 23, 0.08);
+  transition: transform .18s cubic-bezier(.2, .9, .2, 1), box-shadow .18s;
+  cursor: default;
+}
