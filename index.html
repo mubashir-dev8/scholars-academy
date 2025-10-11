@@ -13,6 +13,8 @@
   <nav>
     <button class="nav-btn active" onclick="showSection('attendanceSection', this)">📘 Attendance</button>
     <button class="nav-btn" onclick="showSection('marksSection', this)">📝 Test Marks</button>
+    <!-- New analytics nav -->
+    <button class="nav-btn" onclick="showSection('analyticsSection', this)">📊 Students Analytics</button>
   </nav>
 
   <!-- ===== LOGIN VALIDATION MODAL (appears on page load) ===== -->
@@ -56,6 +58,7 @@
         <button id="downloadImageBtn" onclick="downloadAttendanceImage()">Download Image</button>
       </div>
     </div>
+
     <!-- Test Marks Section -->
     <div id="marksSection" class="section">
       <div class="logo-wrap">
@@ -88,6 +91,44 @@
         <textarea id="marksSummary" placeholder="Students' marks will appear here..." readonly></textarea>
         <button id="shareMarksBtn" onclick="shareMarksOnWhatsApp()">Share on WhatsApp</button>
       </div>
+    </div>
+
+    <!-- NEW: Students Analytics Section -->
+    <div id="analyticsSection" class="section">
+      <div class="logo-wrap">
+        <img src="logo.jpg" alt="Scholars Academy logo" class="class-logo" loading="lazy"
+          onerror="this.style.display='none'" width="100%" height="10%">
+      </div>
+      <h1>Students Analytics - WORK IN PROGRESS....!!!!</h1>
+      <div class="class-buttons" style="margin-bottom:6px;">
+        <h2 style="width:100%; text-align:center; margin:0 0 8px 0; font-size:16px;">Select Class</h2>
+        <button onclick="loadClass('5th ICSE')">5th ICSE</button>
+        <button onclick="loadClass('6th ICSE')">6th ICSE</button>
+        <button onclick="loadClass('7th ICSE')">7th ICSE</button>
+        <button onclick="loadClass('8th ICSE')">8th ICSE</button>
+        <button onclick="loadClass('9th ICSE')">9th ICSE</button>
+        <button onclick="loadClass('10th ICSE')">10th ICSE</button>
+        <button onclick="loadClass('9th Symbiosis')">9th SYM</button>
+        <button onclick="loadClass('9th General')">9th GEN</button>
+        <button onclick="loadClass('10th SSC')">10thSSC</button>
+      </div>
+
+      <div class="students-list" id="analyticsStudentsList" style="max-width:960px; margin: 10px auto;"></div>
+      <div style="max-width:960px;margin:12px auto;color:#666;font-size:14px;">
+        Note: Attendance % shown here is a temporary/session-only estimate. I'll wire it to DB later.
+      </div>
+    </div>
+  </div>
+
+  <!-- Student details modal (analytics) -->
+  <div id="studentDetailsModal" class="student-modal-overlay" role="dialog" aria-modal="true"
+    aria-labelledby="studentDetailsTitle">
+    <div class="student-modal" role="document">
+      <h3 id="studentDetailsTitle">Student Details</h3>
+      <div id="studentDetailsContent">
+        <!-- Filled by JS -->
+      </div>
+      <button class="close-btn" onclick="hideStudentDetailsModal()">Close</button>
     </div>
   </div>
   <script src="script.js"></script>
