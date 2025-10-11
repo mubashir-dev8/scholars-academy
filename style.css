@@ -462,3 +462,58 @@ footer {
   transition: transform .18s cubic-bezier(.2, .9, .2, 1), box-shadow .18s;
   cursor: default;
 }
+
+
+/* --- small additions for analytics modal (you can merge into style.css) --- */
+.analytics-btn {
+  background: #6b7280;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* student details modal */
+.student-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 10001;
+}
+
+.student-modal {
+  width: 420px;
+  max-width: 94%;
+  background: #fff;
+  padding: 18px;
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+}
+
+.student-modal h3 {
+  margin: 0 0 8px;
+  font-size: 18px;
+}
+
+.student-modal .row {
+  margin: 8px 0;
+  font-size: 14px;
+  color: #333;
+}
+
+.student-modal .close-btn {
+  margin-top: 12px;
+  display: block;
+  width: 100%;
+  padding: 10px;
+  background: #3498db;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 700;
+}
