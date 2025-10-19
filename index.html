@@ -7,6 +7,9 @@
   <title>Scholars Academy - Attendance & Test Marks</title>
   <link rel="stylesheet" href="style.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script type="module" src="firebase.js">
+  </script>
+
 </head>
 
 <body>
@@ -53,6 +56,9 @@
       <div class="summary-section">
         <button onclick="generateResult()">Get Result</button>
         <button onclick="clearResult()">Clear Summary</button>
+        <!-- NEW: Submit Attendance button -->
+        <button id="submitAttendanceBtn" onclick="submitAttendance()">Submit Attendance</button>
+
         <textarea id="summary" placeholder="Absent and present students will appear here..." readonly></textarea>
         <button id="shareBtn" onclick="shareOnWhatsApp()">Share on WhatsApp</button>
         <button id="downloadImageBtn" onclick="downloadAttendanceImage()">Download Image</button>
@@ -99,7 +105,7 @@
         <img src="logo.jpg" alt="Scholars Academy logo" class="class-logo" loading="lazy"
           onerror="this.style.display='none'" width="100%" height="10%">
       </div>
-      <h1>Students Analytics - WORK IN PROGRESS....!!!!</h1>
+      <h1>Analytics - WORK IN PROGRESS....!!!!</h1>
       <div class="class-buttons" style="margin-bottom:6px;">
         <h2 style="width:100%; text-align:center; margin:0 0 8px 0; font-size:16px;">Select Class</h2>
         <button onclick="loadClass('5th ICSE')">5th ICSE</button>
@@ -131,7 +137,11 @@
       <button class="close-btn" onclick="hideStudentDetailsModal()">Close</button>
     </div>
   </div>
+
+  <!-- NOTE: script.js is loaded as a module so it can import Firebase -->
+  <!-- <script type="module" src="firebase.js"></script> -->
   <script src="script.js"></script>
+
   <footer>© 2025 Developed By Mubashir. All rights reserved.</footer>
 </body>
 
