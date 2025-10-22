@@ -620,11 +620,12 @@ footer {
 /* Toast system styles — add to your main CSS or <style> */
 #toast-container {
   position: fixed;
+  top: 50%;
   left: 50%;
-  transform: translateX(-50%);
-  top: 20px;
+  transform: translate(-50%, -50%);
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
+  align-items: center;
   gap: 10px;
   z-index: 99999;
   width: calc(100% - 48px);
@@ -647,9 +648,9 @@ footer {
   font-family: Inter, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   box-sizing: border-box;
   overflow: hidden;
-  transform-origin: top center;
+  transform-origin: center center;
   opacity: 0;
-  transform: translateY(-6px) scale(0.995);
+  transform: translateY(-10px) scale(0.97);
   transition: transform 260ms cubic-bezier(.2, .9, .2, 1), opacity 260ms ease;
 }
 
@@ -736,7 +737,7 @@ footer {
   transition: transform linear;
 }
 
-/* types */
+/* Toast types */
 .toast.type-info .icon {
   background: linear-gradient(135deg, #bfdbfe, #bfdbfe20);
   color: #075985;
@@ -757,10 +758,12 @@ footer {
   color: #92400e;
 }
 
-/* small screens */
+/* Small screens */
 @media (max-width: 520px) {
   #toast-container {
-    top: 12px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     width: calc(100% - 24px);
   }
 
@@ -776,5 +779,129 @@ footer {
 
   .toast .message {
     font-size: 13px;
+  }
+}
+
+/* ------------------ ADDITIONAL NAV/HAMBURGER STYLES ------------------ */
+
+/* top-nav: keeps header compact and responsive */
+.top-nav {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 12px;
+  background: linear-gradient(90deg, rgba(44, 62, 80, 0.98), rgba(40, 53, 72, 0.98));
+  color: white;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+}
+
+/* Hamburger button (visible on small screens) */
+.hamburger {
+  display: none;
+  /* shown on small screens via media query */
+  background: transparent;
+  border: none;
+  padding: 6px;
+  border-radius: 8px;
+  cursor: pointer;
+  color: white;
+}
+
+.hamburger:focus {
+  outline: 2px solid #c7e9f7;
+  outline-offset: 2px;
+}
+
+/* Inline nav for desktop */
+.nav-inline {
+  display: flex;
+  gap: 8px;
+  margin-left: 6px;
+}
+
+/* Collapsible mobile menu (hidden by default) */
+.nav-menu {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 280px;
+  height: 100vh;
+  background: linear-gradient(180deg, #ffffff, #fbfdff);
+  box-shadow: -8px 0 28px rgba(0, 0, 0, 0.12);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: right 240ms cubic-bezier(.2, .9, .3, 1);
+  z-index: 10000;
+  color: var(--primary);
+}
+
+.nav-menu .nav-btn {
+  background: #f3f4f6;
+  color: var(--primary);
+  border: none;
+  padding: 10px 12px;
+  border-radius: 10px;
+  text-align: left;
+  font-weight: 700;
+}
+
+/* When open, slide in */
+.nav-menu.open {
+  right: 0;
+}
+
+/* Overlay behind menu to close when clicking outside */
+.nav-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  z-index: 9998;
+}
+
+.nav-overlay.show {
+  display: block;
+}
+
+/* make existing .nav-btn style more consistent with top nav (desktop) */
+.nav-inline .nav-btn {
+  background: transparent;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.nav-inline .nav-btn.active {
+  background: linear-gradient(90deg, #3b82f6, #06b6d4);
+  color: white;
+  border: none;
+  font-weight: 700;
+}
+
+/* Responsive breakpoints for hamburger */
+@media (max-width: 900px) {
+  .nav-inline {
+    display: none;
+    /* hide inline nav on small screens */
+  }
+
+  .hamburger {
+    display: inline-flex;
+    /* show hamburger */
+  }
+}
+
+@media (min-width: 901px) {
+
+  .nav-menu,
+  .nav-overlay {
+    display: none !important;
+    /* hide mobile UI on desktop */
   }
 }
