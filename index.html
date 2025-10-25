@@ -157,7 +157,16 @@
       <div id="studentDetailsContent">
         <!-- Filled by JS -->
       </div>
-      <button class="close-btn" onclick="hideStudentDetailsModal()">Close</button>
+
+      <!-- NEW: Share button on the left of Close -->
+      <div style="display:flex; gap:8px; justify-content:flex-end; margin-top:10px;">
+        <button id="shareToParentsBtn" class="close-btn" style="background: green;" onclick="shareStudentFromModal()"
+          aria-label="Share attendance to parents">
+          Share to Parents
+        </button>
+        <button class="close-btn" onclick="hideStudentDetailsModal()">Close</button>
+      </div>
+
     </div>
   </div>
 
