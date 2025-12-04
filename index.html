@@ -8,74 +8,6 @@
   <link rel="stylesheet" href="style.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script type="module" src="firebase.js"></script>
-
-  <style>
-    /* Processing overlay */
-    #processingOverlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.45);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 99999;
-    }
-
-    #processingOverlay[aria-hidden="false"] {
-      display: flex;
-    }
-
-    .processing-modal {
-      background: #fff;
-      padding: 18px 22px;
-      border-radius: 10px;
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
-      display: flex;
-      gap: 14px;
-      align-items: center;
-      min-width: 260px;
-      max-width: 90%;
-      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-    }
-
-    .processing-spinner {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      border: 4px solid rgba(0, 0, 0, 0.12);
-      border-top-color: #0b6cff;
-      animation: spin 1s linear infinite;
-      flex: 0 0 36px;
-    }
-
-    @keyframes spin {
-      to {
-        transform: rotate(360deg);
-      }
-    }
-
-    .processing-text {
-      font-size: 15px;
-      line-height: 1.2;
-      color: #111;
-    }
-
-    .processing-sub {
-      font-size: 12px;
-      color: #666;
-      margin-top: 6px;
-    }
-
-    /* Keep accessibility focus outline visible if needed */
-    .visually-hidden {
-      position: absolute !important;
-      height: 1px;
-      width: 1px;
-      overflow: hidden;
-      clip: rect(1px, 1px, 1px, 1px);
-      white-space: nowrap;
-    }
-  </style>
 </head>
 
 <body>
@@ -144,7 +76,7 @@
   </div>
   <!-- ======================================================= -->
 
-  <!-- Processing modal (used by login/logout flow) -->
+  <!-- Processing modal (used by login/logout flow and test submission) -->
   <div id="processingOverlay" aria-hidden="true" role="status" aria-live="polite">
     <div class="processing-modal" role="dialog" aria-modal="true" aria-labelledby="processingTitle">
       <div class="processing-spinner" aria-hidden="true"></div>
@@ -217,6 +149,9 @@
       <div class="summary-section">
         <button onclick="generateMarksResult()">Generate Marks</button>
         <button onclick="clearMarksResult()">Clear Summary</button>
+        <!-- NEW: Submit Marks button -->
+        <button id="submitMarksBtn" onclick="submitMarks()">Submit Marks</button>
+
         <textarea id="marksSummary" placeholder="Students' marks will appear here..." readonly></textarea>
         <button id="shareMarksBtn" onclick="shareMarksOnWhatsApp()">Share on WhatsApp</button>
       </div>
@@ -274,7 +209,12 @@
   <script src="script.js"></script>
   <script src="actions.js"></script>
   <script src="coreFunctions.js"></script>
+
+  <!-- existing faculty attendance script (assumes it defines showProcessingModal/hideProcessingModal) -->
   <script src="logatt.js"></script>
+
+  <!-- NEW: marks submission script (you create this file) -->
+  <script src="testSubm.js"></script>
 
   <footer>© 2025 Developed By Mubashir. All rights reserved.</footer>
 </body>
