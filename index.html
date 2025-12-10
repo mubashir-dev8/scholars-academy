@@ -6,6 +6,8 @@
   <meta name='viewport' content='width=device-width, initial-scale=1' />
   <title>Scholars Academy</title>
   <link rel="stylesheet" href="style.css">
+  <!-- New parents modal CSS -->
+  <link rel="stylesheet" href="pc0ns.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script type="module" src="firebase.js"></script>
 </head>
@@ -31,8 +33,6 @@
         <button class="nav-btn active" onclick="showSection('attendanceSection', this)">📘 Attendance</button>
         <button class="nav-btn" onclick="showSection('marksSection', this)">📝 Test Marks</button>
         <button class="nav-btn" onclick="showSection('analyticsSection', this)">📊 Students Analytics</button>
-        <button class="nav-btn" onclick="logIn()">Log In</button>
-        <button class="nav-btn" onclick="logOut()">Log Out</button>
         <button class="nav-btn" onclick="downloadCSV()"><svg style="position: relative; top: 3px; right:8px"
             xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
             stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"
@@ -49,6 +49,12 @@
             <polyline points="7 10 12 15 17 10" />
             <line x1="12" y1="15" x2="12" y2="3" />
           </svg>Download Teachers Attendance</button>
+
+        <!-- Existing nav button — now wired to open the modal -->
+        <button class="nav-btn" onclick="callParents()">Call Parents</button>
+
+        <button class="nav-btn" onclick="logIn()">Log In</button>
+        <button class="nav-btn" onclick="logOut()">Log Out</button>
       </div>
 
     </nav>
@@ -58,8 +64,6 @@
       <button class="nav-btn" onclick="menuNavClick('attendanceSection', this)">📘 Attendance</button>
       <button class="nav-btn" onclick="menuNavClick('marksSection', this)">📝 Test Marks</button>
       <button class="nav-btn" onclick="menuNavClick('analyticsSection', this)">📊 Students Analytics</button>
-      <button class="nav-btn" onclick="logIn()">Log In</button>
-      <button class="nav-btn" onclick="logOut()">Log Out</button>
       <button class="nav-btn" onclick="downloadCSV()"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
           viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
           stroke-linejoin="round" aria-hidden="true" focusable="false">
@@ -74,6 +78,9 @@
           <polyline points="7 10 12 15 17 10" />
           <line x1="12" y1="15" x2="12" y2="3" />
         </svg><span> </span>Download Teachers Attendance</button>
+      <button class="nav-btn" onclick="callParents()">Call Parents</button>
+      <button class="nav-btn" onclick="logIn()">Log In</button>
+      <button class="nav-btn" onclick="logOut()">Log Out</button>
     </div>
     <div id="navOverlay" class="nav-overlay" role="presentation" onclick="closeNavFromOverlay()"></div>
   </header>
@@ -168,8 +175,6 @@
         <button id="submitMarksBtn" onclick="submitMarks()">Submit Marks</button>
 
         <textarea id="marksSummary" placeholder="Students' marks will appear here..." readonly></textarea>
-        <!--            //Mubashir commented above on 9 dec 25.-->
-        <!-- <button id="shareMarksBtn" onclick="shareMarksOnWhatsApp()">Share on WhatsApp</button> -->
       </div>
     </div>
 
@@ -218,6 +223,42 @@
     </div>
   </div>
 
+  <!-- ====== NEW: Parents contact modal (added for Call Parents feature) ====== -->
+  <div id="parentsModalOverlay" class="parents-overlay" aria-hidden="true" role="dialog" aria-modal="true">
+    <div id="parentsModal" class="parents-modal" role="document" aria-labelledby="parentsModalTitle">
+      <header class="parents-modal-header">
+        <h2 id="parentsModalTitle">Call Parents</h2>
+        <button id="parentsCloseBtn" class="close-btn" aria-label="Close call parents" title="Close">✕</button>
+      </header>
+
+      <div class="parents-controls">
+        <label class="parents-label">
+          Select class
+          <select id="parentsClassSelect">
+            <option value="">— Select a class —</option>
+          </select>
+        </label>
+
+        <label class="parents-label">
+          Search
+          <input id="parentsSearch" type="search" placeholder="Search student or phone" disabled />
+        </label>
+
+        <div class="parents-actions">
+          <button id="parentsRefreshBtn" class="small-btn">Refresh</button>
+        </div>
+      </div>
+
+      <main id="parentsList" class="parents-list" aria-live="polite">
+        <div id="parentsEmpty" class="parents-empty">Please select a class to show students.</div>
+      </main>
+
+      <footer class="parents-footer">
+        <small>Verify contact information with admin before calling.</small>
+      </footer>
+    </div>
+  </div>
+
   <!-- NOTE: script.js is loaded as a module so it can import Firebase -->
   <!-- <script type="module" src="firebase.js"></script> -->
   <script src="cVbHHn6.js"></script>
@@ -228,6 +269,9 @@
 
   <!-- existing faculty attendance script (assumes it defines showProcessingModal/hideProcessingModal) -->
   <script src="logatt.js"></script>
+
+  <!-- NEW: parents feature JS (must be after your other scripts to avoid conflicts) -->
+  <script src="pc0nj.js"></script>
 
   <!-- NEW: marks submission script (you create this file) -->
   <script src="testSubm.js"></script>
