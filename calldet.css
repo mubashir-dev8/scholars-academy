@@ -1,0 +1,194 @@
+/* calldet.css — updated to keep modal above a fixed navbar and enable internal scrolling */
+
+/* overlay: make sure it sits above any nav/headers and allows page-level scrolling */
+.calldetails-overlay {
+    position: fixed;
+    inset: 0;
+    display: none;
+    /* script toggles display to 'flex' */
+    align-items: flex-start;
+    /* place modal from top (so it doesn't hide behind fixed nav) */
+    justify-content: center;
+    background: rgba(12, 18, 24, 0.56);
+    z-index: 99999;
+    /* VERY high so it's above fixed navbars */
+    padding: 88px 16px 16px;
+    /* top padding leaves space for a fixed nav (adjust if your nav is taller) */
+    overflow-y: auto;
+    /* allow overlay to scroll if modal + padding exceed viewport */
+    -webkit-overflow-scrolling: touch;
+    box-sizing: border-box;
+}
+
+/* modal container */
+.calldetails-modal {
+    width: 100%;
+    max-width: 760px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    margin: 0 auto;
+    /* center horizontally */
+    max-height: calc(100vh - 120px);
+    /* keep modal within viewport leaving space for top padding */
+    overflow-y: auto;
+    /* enable internal scrolling */
+    -webkit-overflow-scrolling: touch;
+    box-sizing: border-box;
+}
+
+/* header */
+.calldetails-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    background: linear-gradient(90deg, #0b6, #078);
+    color: #fff;
+    position: sticky;
+    /* keep header & close visible when scrolling inside modal */
+    top: 0;
+    z-index: 2;
+    /* ensure header sits above modal body content */
+}
+
+.calldetails-header h2 {
+    margin: 0;
+    font-size: 1.05rem;
+}
+
+/* close button */
+.calldetails-close {
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-size: 1.05rem;
+    cursor: pointer;
+    padding: 6px 8px;
+    border-radius: 6px;
+}
+
+.calldetails-close:hover {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+/* body */
+.calldetails-body {
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background: #fbfbfb;
+    box-sizing: border-box;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.label-text {
+    font-size: 0.86rem;
+    color: #333;
+}
+
+.field input[type="text"],
+.field input[type="date"],
+.field select,
+.field textarea {
+    width: 100%;
+    padding: 8px 10px;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    font-size: 0.95rem;
+    background: #fff;
+    box-sizing: border-box;
+}
+
+.field textarea {
+    min-height: 96px;
+    resize: vertical;
+}
+
+/* actions */
+.calldetails-actions {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+    align-items: center;
+    margin-top: 6px;
+}
+
+.btn {
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid #cfcfcf;
+    background: #fff;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.btn.primary {
+    background: linear-gradient(90deg, #06a, #048);
+    color: #fff;
+    border: none;
+}
+
+.btn:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+}
+
+.calldetails-status {
+    margin-top: 8px;
+    min-height: 1.2em;
+    color: #156615;
+    font-size: 0.95rem;
+}
+
+/* footer */
+.calldetails-footer {
+    padding: 10px 14px;
+    border-top: 1px solid #eee;
+    font-size: 0.85rem;
+    color: #444;
+    background: #fff;
+}
+
+/* show overlay when aria-hidden is false (script sets inline style display:flex) */
+.calldetails-overlay[aria-hidden="false"] {
+    display: flex;
+}
+
+/* Responsive adjustments */
+@media (max-width: 720px) {
+    .calldetails-overlay {
+        padding: 72px 12px 12px;
+    }
+
+    .calldetails-modal {
+        max-width: 96%;
+        max-height: calc(100vh - 100px);
+        border-radius: 8px;
+    }
+}
+
+@media (max-width: 480px) {
+    .calldetails-overlay {
+        padding: 64px 10px 10px;
+    }
+
+    .calldetails-modal {
+        max-width: 100%;
+        max-height: calc(100vh - 80px);
+    }
+
+    .calldetails-header h2 {
+        font-size: 1rem;
+    }
+}
