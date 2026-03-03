@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="style.css">
   <!-- New parents modal CSS -->
   <link rel="stylesheet" href="pc0ns.css">
+  <link rel="stylesheet" href="calldet.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script type="module" src="firebase.js"></script>
   <!-- add this after the html2canvas script in head (or before our new script) -->
@@ -43,7 +44,7 @@
             <polyline points="7 10 12 15 17 10" />
             <line x1="12" y1="15" x2="12" y2="3" />
           </svg>Download Students Attendance</button>
-        <!--<button class="nav-btn" id="downloadTeachersCsvBtn" onclick="downloadTeachersCSV()"><svg
+        <!-- <button class="nav-btn" id="downloadTeachersCsvBtn" onclick="downloadTeachersCSV()"><svg
             style="position: relative; top: 3px; right:8px" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
             stroke-linejoin="round" aria-hidden="true" focusable="false">
@@ -52,6 +53,8 @@
             <line x1="12" y1="15" x2="12" y2="3" />
           </svg>Download Teachers Attendance</button>-->
         <!--<button class="nav-btn" type="button" onclick="generateTeachersPDF()">👩‍🏫 Teachers Analytics</button>-->
+        <button class="nav-btn" onclick="openCallDetails()">Add Call Details</button>
+        <button class="nav-btn" onclick="openShowCallDetails()">Show Call Details</button>
         <button class="nav-btn" onclick="showTodaysAbsentees()">Todays Absentees</button>
         <!-- Existing nav button — now wired to open the modal -->
         <button class="nav-btn" onclick="callParents()">Call Parents</button>
@@ -82,6 +85,8 @@
           <line x1="12" y1="15" x2="12" y2="3" />
         </svg><span> </span>Download Teachers Attendance</button>-->
       <!--<button class="nav-btn" type="button" onclick="generateTeachersPDF()">👩‍🏫 Teachers Analytics</button>-->
+      <button class="nav-btn" onclick="openCallDetails()">Add Call Details</button>
+      <button class="nav-btn" onclick="openShowCallDetails()">Show Call Details</button>
       <button class="nav-btn" onclick="showTodaysAbsentees()">Todays Absentees</button>
       <button class="nav-btn" onclick="callParents()">Call Parents</button>
       <button class="nav-btn" onclick="logIn()">Log In</button>
@@ -263,6 +268,98 @@
       </footer>
     </div>
   </div>
+  <!-- Call Details modal — paste into your index.html (near other modals) -->
+  <div id="callDetailsOverlay" class="calldetails-overlay" aria-hidden="true" role="dialog" aria-modal="true">
+    <div id="callDetailsModal" class="calldetails-modal" role="document" aria-labelledby="callDetailsTitle">
+      <header class="calldetails-header">
+        <h2 id="callDetailsTitle">Add Call Details</h2>
+        <button id="callDetailsCloseBtn" class="calldetails-close" aria-label="Close">✕</button>
+      </header>
+
+      <div class="calldetails-body">
+        <label class="field">
+          <span class="label-text">Select date</span>
+          <input id="callDateInput" type="date" />
+        </label>
+
+        <label class="field">
+          <span class="label-text">Select class</span>
+          <select id="callClassSelect" aria-label="Select class">
+            <option value="">— Select a class —</option>
+          </select>
+        </label>
+
+        <label class="field">
+          <span class="label-text">Select student</span>
+          <select id="callStudentSelect" disabled aria-label="Select student">
+            <option value="">— Select a student —</option>
+          </select>
+        </label>
+
+        <label class="field">
+          <span class="label-text">Remark / Feedback from parent</span>
+          <textarea id="callRemark" rows="5" placeholder='Note down parents response/remark/feedback'></textarea>
+        </label>
+
+        <div class="calldetails-actions">
+          <button id="callSaveBtn" class="btn primary">Save</button>
+          <button id="callCancelBtn" class="btn">Close</button>
+        </div>
+
+        <div id="callStatus" class="calldetails-status" role="status" aria-live="polite"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==== NEW: Show Call Details modal (list previously saved call remarks) ==== -->
+  <div id="showCallOverlay" class="calldetails-overlay" aria-hidden="true" role="dialog" aria-modal="true">
+    <div id="showCallModal" class="calldetails-modal" role="document" aria-labelledby="showCallTitle">
+      <header class="calldetails-header">
+        <h2 id="showCallTitle">Show Call Details</h2>
+        <button id="showCallCloseBtn" class="calldetails-close" aria-label="Close">✕</button>
+      </header>
+
+      <div class="calldetails-body">
+        <label class="field">
+          <span class="label-text">Select class</span>
+          <select id="showCallClassSelect" aria-label="Select class">
+            <option value="">— Select a class —</option>
+          </select>
+        </label>
+
+        <label class="field">
+          <span class="label-text">Select student</span>
+          <select id="showCallStudentSelect" disabled aria-label="Select student">
+            <option value="">— Select a student —</option>
+          </select>
+        </label>
+
+        <div style="display:flex; gap:8px; justify-content:flex-end; margin-top:6px;">
+          <button id="getCallDataBtn" class="btn primary">Get Data</button>
+          <button id="clearCallDataBtn" class="btn">Clear</button>
+        </div>
+
+        <div id="showCallStatus" class="calldetails-status" role="status" aria-live="polite"></div>
+
+        <div id="callResultsWrap" style="margin-top:12px; overflow:auto;">
+          <table id="callResultsTable" style="width:100%; border-collapse:collapse; display:none;">
+            <thead>
+              <tr style="background:#f2f2f2">
+                <th style="text-align:left; padding:8px; border:1px solid #eee;">Date</th>
+                <th style="text-align:left; padding:8px; border:1px solid #eee;">Remark</th>
+              </tr>
+            </thead>
+            <tbody id="callResultsBody"></tbody>
+          </table>
+          <div id="callResultsEmpty" style="display:none; margin-top:6px; color:#666;">No records to show.</div>
+        </div>
+      </div>
+
+      <footer class="calldetails-footer">
+        <small>Data read from Firestore collection: <strong>calldetails</strong>.</small>
+      </footer>
+    </div>
+  </div>
 
   <!-- NOTE: script.js is loaded as a module so it can import Firebase -->
   <!-- <script type="module" src="firebase.js"></script> -->
@@ -271,6 +368,7 @@
   <script src="studentDetails.js"></script>
   <script src="actions.js"></script>
   <script src="coreFunctions.js"></script>
+  <script src="calldet.js"></script>
 
   <!-- existing faculty attendance script (assumes it defines showProcessingModal/hideProcessingModal) -->
   <script src="logatt.js"></script>
