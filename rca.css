@@ -1,0 +1,202 @@
+/* RCA page layout */
+#rcaSection,
+#viewRcaSection {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 16px;
+}
+
+#rcaSection h1,
+#viewRcaSection h1 {
+    text-align: center;
+    margin-bottom: 18px;
+}
+
+/* Inputs row */
+.marks-meta {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.marks-meta input,
+.marks-meta select {
+    width: 100%;
+    padding: 11px 12px;
+    border: 1px solid #d9d9d9;
+    border-radius: 10px;
+    outline: none;
+    font-size: 14px;
+    background: #fff;
+    box-sizing: border-box;
+}
+
+.marks-meta input:focus,
+.marks-meta select:focus {
+    border-color: #5b8def;
+    box-shadow: 0 0 0 3px rgba(91, 141, 239, 0.12);
+}
+
+/* Class button group */
+.class-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.class-buttons h2 {
+    width: 100%;
+    margin: 0 0 4px 0;
+    font-size: 16px;
+    text-align: center;
+}
+
+.class-buttons button,
+#rcaSection>button,
+#viewRcaSection>button {
+    padding: 10px 14px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: transform 0.15s ease, opacity 0.15s ease, background 0.15s ease;
+}
+
+.class-buttons button:hover,
+#rcaSection>button:hover,
+#viewRcaSection>button:hover {
+    transform: translateY(-1px);
+    opacity: 0.95;
+}
+
+/* RCA student card */
+.rca-student {
+    border: 1px solid #e4e4e4;
+    border-radius: 14px;
+    padding: 14px;
+    margin: 12px 0;
+    background: #fff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+}
+
+.rca-student b {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 15px;
+}
+
+/* Marks input */
+.rca-student input[type="number"] {
+    width: 100%;
+    max-width: 180px;
+    padding: 10px 12px;
+    border: 1px solid #d9d9d9;
+    border-radius: 10px;
+    margin-bottom: 12px;
+    outline: none;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+.rca-student input[type="number"]:focus {
+    border-color: #5b8def;
+    box-shadow: 0 0 0 3px rgba(91, 141, 239, 0.12);
+}
+
+/* Issue checkboxes grid */
+.rca-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 8px 12px;
+}
+
+.rca-grid label {
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 10px;
+    background: #f8f9fb;
+    border: 1px solid #ececec;
+    border-radius: 10px;
+    user-select: none;
+}
+
+.rca-grid input[type="checkbox"] {
+    transform: scale(1.05);
+}
+
+/* View RCA report area */
+#rcaReport {
+    margin-top: 18px;
+    background: #fff;
+    border: 1px solid #e7e7e7;
+    border-radius: 14px;
+    padding: 14px;
+    min-height: 120px;
+    overflow: auto;
+}
+
+#rcaReport canvas {
+    max-width: 100% !important;
+    height: auto !important;
+}
+
+/* Empty / info state */
+.rca-empty {
+    padding: 16px;
+    text-align: center;
+    color: #666;
+    background: #fafafa;
+    border: 1px dashed #ddd;
+    border-radius: 12px;
+}
+
+/* Small summary table */
+.rca-summary-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 14px;
+    font-size: 14px;
+}
+
+.rca-summary-table th,
+.rca-summary-table td {
+    border: 1px solid #e8e8e8;
+    padding: 10px 12px;
+    text-align: left;
+}
+
+.rca-summary-table th {
+    background: #f5f7fb;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .marks-meta {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .rca-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 600px) {
+    .marks-meta {
+        grid-template-columns: 1fr;
+    }
+
+    .rca-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .class-buttons button,
+    #rcaSection>button,
+    #viewRcaSection>button {
+        width: 100%;
+    }
+}
