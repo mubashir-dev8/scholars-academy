@@ -13,6 +13,8 @@
   <script type="module" src="firebase.js"></script>
   <!-- add this after the html2canvas script in head (or before our new script) -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <link rel="stylesheet" href="rca.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
@@ -61,6 +63,8 @@
 
         <button class="nav-btn" onclick="logIn()">Log In</button>
         <button class="nav-btn" onclick="logOut()">Log Out</button>
+        <button class="nav-btn" onclick="showSection('rcaSection', this)">🧠 Do RCA</button>
+        <button class="nav-btn" onclick="showSection('viewRcaSection', this)">📑 View RCA</button>
       </div>
 
     </nav>
@@ -84,13 +88,15 @@
           <polyline points="7 10 12 15 17 10" />
           <line x1="12" y1="15" x2="12" y2="3" />
         </svg><span> </span>Download Teachers Attendance</button>-->
-    <!-- <button class="nav-btn" type="button" onclick="generateTeachersPDF()">👩‍🏫 Teachers Analytics</button>-->
+      <!--<button class="nav-btn" type="button" onclick="generateTeachersPDF()">👩‍🏫 Teachers Analytics</button>-->
       <button class="nav-btn" onclick="openCallDetails()">Add Call Details</button>
       <button class="nav-btn" onclick="openShowCallDetails()">Show Call Details</button>
       <button class="nav-btn" onclick="showTodaysAbsentees()">Todays Absentees</button>
       <button class="nav-btn" onclick="callParents()">Call Parents</button>
       <button class="nav-btn" onclick="logIn()">Log In</button>
       <button class="nav-btn" onclick="logOut()">Log Out</button>
+      <button class="nav-btn" onclick="menuNavClick('rcaSection', this)">🧠 Do RCA</button>
+      <button class="nav-btn" onclick="menuNavClick('viewRcaSection', this)">📑 View RCA</button>
     </div>
     <div id="navOverlay" class="nav-overlay" role="presentation" onclick="closeNavFromOverlay()"></div>
   </header>
@@ -209,6 +215,50 @@
       </div>
 
       <div class="students-list" id="analyticsStudentsList" style="max-width:960px; margin: 10px auto;"></div>
+    </div>
+    <!-- ================= RCA SECTION ================= -->
+    <div id="rcaSection" class="section">
+      <h1>Do RCA</h1>
+
+      <div class="marks-meta">
+        <input type="date" id="rcaDate">
+        <input type="text" id="rcaSubject" placeholder="Subject">
+        <input type="text" id="rcaChapter" placeholder="Chapter">
+        <input type="number" id="rcaTotalMarks" placeholder="Total Marks">
+      </div>
+
+      <div class="class-buttons">
+        <h2>Select Class</h2>
+        <button onclick="loadRCAClass('5th ICSE')">5th ICSE</button>
+        <button onclick="loadRCAClass('6th ICSE')">6th ICSE</button>
+        <button onclick="loadRCAClass('7th ICSE')">7th ICSE</button>
+        <button onclick="loadRCAClass('8th ICSE')">8th ICSE</button>
+        <button onclick="loadRCAClass('9th ICSE')">9th ICSE</button>
+        <button onclick="loadRCAClass('10th ICSE')">10th ICSE</button>
+        <button onclick="loadRCAClass('9th Symbiosis')">9th SYM</button>
+        <button onclick="loadRCAClass('9th General')">9th GEN</button>
+        <button onclick="loadRCAClass('10th SSC')">10th SSC</button>
+      </div>
+
+      <div id="rcaStudentsList"></div>
+
+      <button onclick="saveRCA()">Save RCA</button>
+    </div>
+
+
+    <!-- ================= VIEW RCA ================= -->
+    <div id="viewRcaSection" class="section">
+      <h1>View RCA</h1>
+
+      <select id="viewRcaClass"></select>
+      <button onclick="loadRcaSubjects()">Load Subjects</button>
+
+      <select id="viewRcaSubject"></select>
+      <select id="viewRcaChapter"></select>
+
+      <button onclick="generateRcaReport()">Download Report</button>
+
+      <div id="rcaReport"></div>
     </div>
   </div>
 
@@ -375,6 +425,7 @@
   <!-- NEW: marks submission script (you create this file) -->
   <script src="testSubm.js"></script>
   <script src="facAna.js"></script>
+  <script src="rca.js"></script>
 
   <footer>© 2025 Developed By Mubashir. All rights reserved.</footer>
 </body>
