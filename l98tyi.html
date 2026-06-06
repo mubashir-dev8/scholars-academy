@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name='viewport' content='width=device-width, initial-scale=1' />
+  <title>Scholars Academy</title>
+  <script>
+    if (!sessionStorage.getItem("loggedInTeacher")) {
+      window.location.replace("login.html");
+    }
+  </script>
+  <link rel="stylesheet" href="style.css">
+  <!-- New parents modal CSS -->
+  <link rel="stylesheet" href="pc0ns.css">
+  <link rel="stylesheet" href="calldet.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script type="module" src="firebase.js"></script>
+  <!-- add this after the html2canvas script in head (or before our new script) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <link rel="stylesheet" href="rca.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+  <!-- ===== TOP NAV with Hamburger (replaces old nav bar) ===== -->
+  <header>
+    <nav class="top-nav" role="navigation" aria-label="Main">
+      <button id="hamburgerBtn" class="hamburger" aria-controls="navMenu" aria-expanded="false"
+        aria-label="Open main menu" onclick="toggleNav()">
+        <!-- accessible SVG hamburger -->
+        <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round" />
+        </svg>
+      </button>
+
+      <div style="display:flex;align-items:center;gap:12px;">
+        <div class="nav-logo" style="color:white;font-weight:700;">Scholars Academy</div>
+      </div>
+
+      <div class="nav-inline" id="navInline" style="margin-left:auto;">
+        <button class="nav-btn active" onclick="showSection('attendanceSection', this)">📘 Attendance</button>
+        <button class="nav-btn" onclick="showSection('marksSection', this)">📝 Test Marks</button>
+        <button class="nav-btn" onclick="showSection('analyticsSection', this)">📊 Students Analytics</button>
+        <button class="nav-btn" onclick="downloadCSV()"><svg style="position: relative; top: 3px; right:8px"
+            xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"
+            focusable="false">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+            <polyline points="7 10 12 15 17 10" />
+            <line x1="12" y1="15" x2="12" y2="3" />
+          </svg>Download Students Attendance</button>
+        <!-- <button class="nav-btn" id="downloadTeachersCsvBtn" onclick="downloadTeachersCSV()"><svg
+            style="position: relative; top: 3px; right:8px" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+            stroke-linejoin="round" aria-hidden="true" focusable="false">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+            <polyline points="7 10 12 15 17 10" />
+            <line x1="12" y1="15" x2="12" y2="3" />
+          </svg>Download Teachers Attendance</button>-->
+        <!--<button class="nav-btn" type="button" onclick="generateTeachersPDF()">👩‍🏫 Teachers Analytics</button>-->
+        <button class="nav-btn" onclick="openCallDetails()">Add Call Details</button>
+        <button class="nav-btn" onclick="openShowCallDetails()">Show Call Details</button>
+        <button class="nav-btn" onclick="showTodaysAbsentees()">Todays Absentees</button>
+        <!-- Existing nav button — now wired to open the modal -->
+        <button class="nav-btn" onclick="callParents()">Call Parents</button>
+
+        <button class="nav-btn" onclick="logIn()">Log In</button>
+        <button class="nav-btn" onclick="logOut()">Log Out</button>
+        <button class="nav-btn" onclick="showSection('rcaSection', this)">🧠 Do RCA</button>
+        <button class="nav-btn" onclick="showSection('viewRcaSection', this)">📑 View RCA</button>
+      </div>
+
+    </nav>
+
+    <!-- mobile slide-in menu -->
+    <div id="navMenu" class="nav-menu" aria-hidden="true">
+      <button class="nav-btn" onclick="menuNavClick('attendanceSection', this)">📘 Attendance</button>
+      <button class="nav-btn" onclick="menuNavClick('marksSection', this)">📝 Test Marks</button>
+      <button class="nav-btn" onclick="menuNavClick('analyticsSection', this)">📊 Students Analytics</button>
+      <button class="nav-btn" onclick="downloadCSV()"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+          stroke-linejoin="round" aria-hidden="true" focusable="false">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+          <polyline points="7 10 12 15 17 10" />
+          <line x1="12" y1="15" x2="12" y2="3" />
+        </svg><span> </span>Download Students Attendance</button>
+      <!--<button class="nav-btn" onclick="downloadTeachersCSV()"><svg xmlns="http://www.w3.org/2000/svg" width="18"
+          height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+          stroke-linejoin="round" aria-hidden="true" focusable="false">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+          <polyline points="7 10 12 15 17 10" />
+          <line x1="12" y1="15" x2="12" y2="3" />
+        </svg><span> </span>Download Teachers Attendance</button>-->
+      <!--<button class="nav-btn" type="button" onclick="generateTeachersPDF()">👩‍🏫 Teachers Analytics</button>-->
+      <button class="nav-btn" onclick="openCallDetails()">Add Call Details</button>
+      <button class="nav-btn" onclick="openShowCallDetails()">Show Call Details</button>
+      <button class="nav-btn" onclick="showTodaysAbsentees()">Todays Absentees</button>
+      <button class="nav-btn" onclick="callParents()">Call Parents</button>
+      <button class="nav-btn" onclick="logIn()">Log In</button>
+      <button class="nav-btn" onclick="logOut()">Log Out</button>
+      <button class="nav-btn" onclick="menuNavClick('rcaSection', this)">🧠 Do RCA</button>
+      <button class="nav-btn" onclick="menuNavClick('viewRcaSection', this)">📑 View RCA</button>
+    </div>
+    <div id="navOverlay" class="nav-overlay" role="presentation" onclick="closeNavFromOverlay()"></div>
+  </header>
+
+  <!-- ===== LOGIN VALIDATION MODAL (appears on page load) ===== -->
+  <!-- <div id="authOverlay" class="auth-overlay" aria-hidden="false">
+    <div class="auth-modal" role="dialog" aria-modal="true" aria-labelledby="authTitle">
+      <h2 id="authTitle">Teacher Sign In</h2>
+      <p>Please enter your name and passcode to continue</p>
+      <input id="teacherNameInput" type="text" placeholder="Username" autocomplete="off" />
+      <input id="teacherPassInput" type="password" placeholder="Passcode" autocomplete="off" />
+      <button id="authSignBtn">Sign In</button>
+      <div class="auth-hint">Contact Mubashir if you don't have credentials.</div>
+    </div>
+  </div> -->
+  <!-- ======================================================= -->
+
+  <!-- Processing modal (used by login/logout flow and test submission) -->
+  <div id="processingOverlay" aria-hidden="true" role="status" aria-live="polite">
+    <div class="processing-modal" role="dialog" aria-modal="true" aria-labelledby="processingTitle">
+      <div class="processing-spinner" aria-hidden="true"></div>
+      <div>
+        <div id="processingTitle" class="processing-text">Processing…</div>
+        <div id="processingSub" class="processing-sub">Please wait</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <!-- Attendance Section -->
+    <div id="attendanceSection" class="section active">
+      <div class="logo-wrap">
+        <img src="logo.jpg" alt="Scholars Academy logo" class="class-logo" loading="lazy"
+          onerror="this.style.display='none'" width="100%" height="10%">
+      </div>
+      <div class="class-buttons" id="classButtons">
+        <h2>Mark Attendance</h2>
+        <h2 style="width:100%; text-align:center; margin:0 0 8px 0; font-size:16px;">Select Class</h2>
+        <button onclick="loadClass('5th ICSE')">5th ICSE</button>
+        <button onclick="loadClass('6th ICSE')">6th ICSE</button>
+        <button onclick="loadClass('7th ICSE')">7th ICSE</button>
+        <button onclick="loadClass('8th ICSE')">8th ICSE</button>
+        <button onclick="loadClass('9th ICSE')">9th ICSE</button>
+        <button onclick="loadClass('10th ICSE')">10th ICSE</button>
+        <button onclick="loadClass('9th Symbiosis')">9th SYM</button>
+        <button onclick="loadClass('9th General')">9th GEN</button>
+        <button onclick="loadClass('10th SSC')">10th SSC</button>
+        <button onclick="loadClass('11th ISC')">11th ISC</button>
+      </div>
+      <div class="students-list" id="studentsList"></div>
+      <div class="summary-section">
+        <button onclick="generateResult()">Get Result</button>
+        <button onclick="clearResult()">Clear Summary</button>
+        <!-- NEW: Submit Attendance button -->
+        <button id="submitAttendanceBtn" onclick="submitAttendance()">Submit Attendance</button>
+
+        <textarea id="summary" placeholder="Absent and present students will appear here..." readonly></textarea>
+        <button id="shareBtn" onclick="shareOnWhatsApp()">Share on WhatsApp</button>
+        <button id="downloadImageBtn" onclick="downloadAttendanceImage()">Download Image</button>
+      </div>
+    </div>
+
+    <!-- Test Marks Section -->
+    <div id="marksSection" class="section">
+      <div class="logo-wrap">
+        <img src="logo.jpg" alt="Scholars Academy logo" class="class-logo" loading="lazy"
+          onerror="this.style.display='none'" width="100%" height="10%">
+      </div>
+      <h1>Test Marks</h1>
+      <div class="class-buttons" style="margin-bottom:6px;">
+        <h2 style="width:100%; text-align:center; margin:0 0 8px 0; font-size:16px;">Select Class</h2>
+        <button onclick="loadClass('5th ICSE')">5th ICSE</button>
+        <button onclick="loadClass('6th ICSE')">6th ICSE</button>
+        <button onclick="loadClass('7th ICSE')">7th ICSE</button>
+        <button onclick="loadClass('8th ICSE')">8th ICSE</button>
+        <button onclick="loadClass('9th ICSE')">9th ICSE</button>
+        <button onclick="loadClass('10th ICSE')">10th ICSE</button>
+        <button onclick="loadClass('9th Symbiosis')">9th SYM</button>
+        <button onclick="loadClass('9th General')">9th GEN</button>
+        <button onclick="loadClass('10th SSC')">10th SSC</button>
+        <button onclick="loadClass('11th ISC')">11th ISC</button>
+      </div>
+      <div class="marks-meta" style="max-width:960px; margin:0 auto 6px;">
+        <input id="subjectInput" placeholder="Subject name (e.g. Physics)" />
+        <input id="chapterInput" placeholder="Chapter (e.g. Chapter 3: Laws)" />
+        <input id="totalMarksInput" placeholder="Total Marks (e.g. 20)" type="number" min="1"
+          oninput="onTotalMarksChange()" />
+      </div>
+      <div class="students-list" id="marksStudentsList" style="max-width:960px; margin: 10px auto;"></div>
+      <div class="summary-section">
+        <button onclick="generateMarksResult()">Generate Marks</button>
+        <button onclick="clearMarksResult()">Clear Summary</button>
+        <!-- NEW: Submit Marks button -->
+        <button id="submitMarksBtn" onclick="submitMarks()">Submit Marks</button>
+
+        <textarea id="marksSummary" placeholder="Students' marks will appear here..." readonly></textarea>
+      </div>
+    </div>
+
+    <!-- NEW: Students Analytics Section -->
+    <div id="analyticsSection" class="section">
+      <div class="logo-wrap">
+        <img src="logo.jpg" alt="Scholars Academy logo" class="class-logo" loading="lazy"
+          onerror="this.style.display='none'" width="100%" height="10%">
+      </div>
+      <h1>Analytics</h1>
+      <div class="class-buttons" style="margin-bottom:6px;">
+        <h2 style="width:100%; text-align:center; margin:0 0 8px 0; font-size:16px;">Select Class</h2>
+        <button onclick="loadClass('5th ICSE')">5th ICSE</button>
+        <button onclick="loadClass('6th ICSE')">6th ICSE</button>
+        <button onclick="loadClass('7th ICSE')">7th ICSE</button>
+        <button onclick="loadClass('8th ICSE')">8th ICSE</button>
+        <button onclick="loadClass('9th ICSE')">9th ICSE</button>
+        <button onclick="loadClass('10th ICSE')">10th ICSE</button>
+        <button onclick="loadClass('9th Symbiosis')">9th SYM</button>
+        <button onclick="loadClass('9th General')">9th GEN</button>
+        <button onclick="loadClass('10th SSC')">10th SSC</button>
+        <button onclick="loadClass('11th ISC')">11th ISC</button>
+      </div>
+
+      <div class="students-list" id="analyticsStudentsList" style="max-width:960px; margin: 10px auto;"></div>
+    </div>
+    <!-- ================= RCA SECTION ================= -->
+    <div id="rcaSection" class="section">
+      <h1>Do RCA</h1>
+
+      <div class="marks-meta">
+        <input type="date" id="rcaDate">
+        <input type="text" id="rcaSubject" placeholder="Subject">
+        <input type="text" id="rcaChapter" placeholder="Chapter">
+        <input type="number" id="rcaTotalMarks" placeholder="Total Marks">
+      </div>
+
+      <div class="class-buttons">
+        <h2>Select Class</h2>
+        <button onclick="loadRCAClass('5th ICSE')">5th ICSE</button>
+        <button onclick="loadRCAClass('6th ICSE')">6th ICSE</button>
+        <button onclick="loadRCAClass('7th ICSE')">7th ICSE</button>
+        <button onclick="loadRCAClass('8th ICSE')">8th ICSE</button>
+        <button onclick="loadRCAClass('9th ICSE')">9th ICSE</button>
+        <button onclick="loadRCAClass('10th ICSE')">10th ICSE</button>
+        <button onclick="loadRCAClass('9th Symbiosis')">9th SYM</button>
+        <button onclick="loadRCAClass('9th General')">9th GEN</button>
+        <button onclick="loadRCAClass('10th SSC')">10th SSC</button>
+        <button onclick="loadClass('11th ISC')">11th ISC</button>
+      </div>
+
+      <div id="rcaStudentsList"></div>
+
+      <button onclick="saveRCA()">Save RCA</button>
+    </div>
+
+
+    <!-- ================= VIEW RCA ================= -->
+    <div id="viewRcaSection" class="section">
+      <h1>View RCA</h1>
+
+      <select id="viewRcaClass"></select>
+      <button onclick="loadRcaSubjects()">Load Subjects</button>
+
+      <select id="viewRcaSubject"></select>
+      <select id="viewRcaChapter"></select>
+
+      <button onclick="generateRcaReport()">Download Report</button>
+
+      <div id="rcaReport"></div>
+    </div>
+  </div>
+
+  <!-- Student details modal (analytics) -->
+  <div id="studentDetailsModal" class="student-modal-overlay" role="dialog" aria-modal="true"
+    aria-labelledby="studentDetailsTitle">
+    <div class="student-modal" role="document">
+      <h3 id="studentDetailsTitle">Student Details</h3>
+      <div id="studentDetailsContent">
+        <!-- Filled by JS -->
+      </div>
+
+      <!-- NEW: Share button on the left of Close -->
+      <div style="display:flex; gap:8px; justify-content:flex-end; margin-top:10px;">
+        <button id="shareToParentsBtn" class="close-btn" style="background: green;" onclick="shareStudentFromModal()"
+          aria-label="Share attendance to parents">
+          Share to Parents
+        </button>
+        <button class="close-btn" onclick="hideStudentDetailsModal()">Close</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ====== NEW: Parents contact modal (added for Call Parents feature) ====== -->
+  <div id="parentsModalOverlay" class="parents-overlay" aria-hidden="true" role="dialog" aria-modal="true">
+    <div id="parentsModal" class="parents-modal" role="document" aria-labelledby="parentsModalTitle">
+      <header class="parents-modal-header">
+        <h2 id="parentsModalTitle">Call Parents</h2>
+        <button id="parentsCloseBtn" class="close-btn" aria-label="Close call parents" title="Close">✕</button>
+      </header>
+
+      <div class="parents-controls">
+        <label class="parents-label">
+          Select class
+          <select id="parentsClassSelect">
+            <option value="">— Select a class —</option>
+          </select>
+        </label>
+
+        <label class="parents-label">
+          Search
+          <input id="parentsSearch" type="search" placeholder="Search student or phone" disabled />
+        </label>
+
+        <div class="parents-actions">
+          <button id="parentsRefreshBtn" class="small-btn">Refresh</button>
+        </div>
+      </div>
+
+      <main id="parentsList" class="parents-list" aria-live="polite">
+        <div id="parentsEmpty" class="parents-empty">Please select a class to show students.</div>
+      </main>
+
+      <footer class="parents-footer">
+        <small>Verify contact information with admin before calling.</small>
+      </footer>
+    </div>
+  </div>
+  <!-- Call Details modal — paste into your index.html (near other modals) -->
+  <div id="callDetailsOverlay" class="calldetails-overlay" aria-hidden="true" role="dialog" aria-modal="true">
+    <div id="callDetailsModal" class="calldetails-modal" role="document" aria-labelledby="callDetailsTitle">
+      <header class="calldetails-header">
+        <h2 id="callDetailsTitle">Add Call Details</h2>
+        <button id="callDetailsCloseBtn" class="calldetails-close" aria-label="Close">✕</button>
+      </header>
+
+      <div class="calldetails-body">
+        <label class="field">
+          <span class="label-text">Select date</span>
+          <input id="callDateInput" type="date" />
+        </label>
+
+        <label class="field">
+          <span class="label-text">Select class</span>
+          <select id="callClassSelect" aria-label="Select class">
+            <option value="">— Select a class —</option>
+          </select>
+        </label>
+
+        <label class="field">
+          <span class="label-text">Select student</span>
+          <select id="callStudentSelect" disabled aria-label="Select student">
+            <option value="">— Select a student —</option>
+          </select>
+        </label>
+
+        <label class="field">
+          <span class="label-text">Remark / Feedback from parent</span>
+          <textarea id="callRemark" rows="5" placeholder='Note down parents response/remark/feedback'></textarea>
+        </label>
+
+        <div class="calldetails-actions">
+          <button id="callSaveBtn" class="btn primary">Save</button>
+          <button id="callCancelBtn" class="btn">Close</button>
+        </div>
+
+        <div id="callStatus" class="calldetails-status" role="status" aria-live="polite"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==== NEW: Show Call Details modal (list previously saved call remarks) ==== -->
+  <div id="showCallOverlay" class="calldetails-overlay" aria-hidden="true" role="dialog" aria-modal="true">
+    <div id="showCallModal" class="calldetails-modal" role="document" aria-labelledby="showCallTitle">
+      <header class="calldetails-header">
+        <h2 id="showCallTitle">Show Call Details</h2>
+        <button id="showCallCloseBtn" class="calldetails-close" aria-label="Close">✕</button>
+      </header>
+
+      <div class="calldetails-body">
+        <label class="field">
+          <span class="label-text">Select class</span>
+          <select id="showCallClassSelect" aria-label="Select class">
+            <option value="">— Select a class —</option>
+          </select>
+        </label>
+
+        <label class="field">
+          <span class="label-text">Select student</span>
+          <select id="showCallStudentSelect" disabled aria-label="Select student">
+            <option value="">— Select a student —</option>
+          </select>
+        </label>
+
+        <div style="display:flex; gap:8px; justify-content:flex-end; margin-top:6px;">
+          <button id="getCallDataBtn" class="btn primary">Get Data</button>
+          <button id="clearCallDataBtn" class="btn">Clear</button>
+        </div>
+
+        <div id="showCallStatus" class="calldetails-status" role="status" aria-live="polite"></div>
+
+        <div id="callResultsWrap" style="margin-top:12px; overflow:auto;">
+          <table id="callResultsTable" style="width:100%; border-collapse:collapse; display:none;">
+            <thead>
+              <tr style="background:#f2f2f2">
+                <th style="text-align:left; padding:8px; border:1px solid #eee;">Date</th>
+                <th style="text-align:left; padding:8px; border:1px solid #eee;">Remark</th>
+              </tr>
+            </thead>
+            <tbody id="callResultsBody"></tbody>
+          </table>
+          <div id="callResultsEmpty" style="display:none; margin-top:6px; color:#666;">No records to show.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NOTE: script.js is loaded as a module so it can import Firebase -->
+  <!-- <script type="module" src="firebase.js"></script> -->
+  <script src="cVbHHn6.js"></script>
+  <script src="script.js"></script>
+  <script src="studentDetails.js"></script>
+  <script src="actions.js"></script>
+  <script src="coreFunctions.js"></script>
+  <script src="calldet.js"></script>
+
+  <!-- existing faculty attendance script (assumes it defines showProcessingModal/hideProcessingModal) -->
+  <script src="logatt.js"></script>
+
+  <!-- NEW: parents feature JS (must be after your other scripts to avoid conflicts) -->
+  <script src="pc0nj.js"></script>
+
+  <!-- NEW: marks submission script (you create this file) -->
+  <script src="testSubm.js"></script>
+  <script src="facAna.js"></script>
+  <script src="rca.js"></script>
+
+  <footer>© 2026 Developed By Mubashir. All rights reserved.</footer>
+</body>
+
+</html>
