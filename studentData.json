@@ -75,14 +75,12 @@
         "Lishika",
         "Madiha",
         "Mohammed Ali K",
-        
         "Moinuddin Ahmed",
         "Owais",
         "Raiyan",
         "Rayan",
         "Rayed",
         "Rumaisa",
-        
         "Shamica",
         "S Ayesha",
         "Talha",
@@ -108,22 +106,31 @@
         "Zainab",
         "Zohra"
     ],
-    "9th Symbiosis": [
+    "9th SSC": [
         "Aayat",
         "Abdullah",
-        "Rehan",
-        "Saad",
-        "Walid"
-    ],
-    "9th General": [
         "Aliya",
+        "Ashmir K",
         "Haisham K",
+        "Ibrahim M",
         "Masihuddin",
+        "Mohtashim K",
         "Muzammil",
+        "Nauman S",
         "Priyanshu",
         "Rabiya",
+        "Rehan",
+        "Saad",
         "Shahbaaz",
+        "Walid",
         "Yusuf"
+    ],
+    "Common Attendance": [
+        "Aman(State-6)",
+        "Arbaaz R(CBSE-8)",
+        "Minsa S(CBSE-8)",
+        "Shadab S(CBSE-9)",
+        "Yahya(CBSE-5)"
     ],
     "10th SSC": [
         "Alia",
