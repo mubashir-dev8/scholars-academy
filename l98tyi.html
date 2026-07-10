@@ -60,8 +60,8 @@
             <line x1="12" y1="15" x2="12" y2="3" />
           </svg>Download Teachers Attendance</button>-->
         <!--<button class="nav-btn" type="button" onclick="generateTeachersPDF()">👩‍🏫 Teachers Analytics</button>-->
-        <button class="nav-btn" onclick="openCallDetails()">Add Call Details</button>
-        <button class="nav-btn" onclick="openShowCallDetails()">Show Call Details</button>
+        <button class="nav-btn" onclick="openCallDetails()">Add Students Feedback</button>
+        <button class="nav-btn" onclick="openShowCallDetails()">Show Students Feedback</button>
         <button class="nav-btn" onclick="showTodaysAbsentees()">Todays Absentees</button>
         <!-- Existing nav button — now wired to open the modal -->
         <button class="nav-btn" onclick="callParents()">Call Parents</button>
@@ -94,8 +94,8 @@
           <line x1="12" y1="15" x2="12" y2="3" />
         </svg><span> </span>Download Teachers Attendance</button>-->
       <!--<button class="nav-btn" type="button" onclick="generateTeachersPDF()">👩‍🏫 Teachers Analytics</button>-->
-      <button class="nav-btn" onclick="openCallDetails()">Add Call Details</button>
-      <button class="nav-btn" onclick="openShowCallDetails()">Show Call Details</button>
+      <button class="nav-btn" onclick="openCallDetails()">Add Students Feedback</button>
+      <button class="nav-btn" onclick="openShowCallDetails()">Show Students Feedback</button>
       <button class="nav-btn" onclick="showTodaysAbsentees()">Todays Absentees</button>
       <button class="nav-btn" onclick="callParents()">Call Parents</button>
       <button class="nav-btn" onclick="logIn()">Log In</button>
@@ -339,7 +339,7 @@
   <div id="callDetailsOverlay" class="calldetails-overlay" aria-hidden="true" role="dialog" aria-modal="true">
     <div id="callDetailsModal" class="calldetails-modal" role="document" aria-labelledby="callDetailsTitle">
       <header class="calldetails-header">
-        <h2 id="callDetailsTitle">Add Call Details</h2>
+        <h2 id="callDetailsTitle">Add Students Feedback</h2>
         <button id="callDetailsCloseBtn" class="calldetails-close" aria-label="Close">✕</button>
       </header>
 
@@ -364,7 +364,7 @@
         </label>
 
         <label class="field">
-          <span class="label-text">Remark / Feedback from parent</span>
+          <span class="label-text">Remark / Feedback from parent/teachers</span>
           <textarea id="callRemark" rows="5" placeholder='Note down parents response/remark/feedback'></textarea>
         </label>
 
@@ -382,7 +382,7 @@
   <div id="showCallOverlay" class="calldetails-overlay" aria-hidden="true" role="dialog" aria-modal="true">
     <div id="showCallModal" class="calldetails-modal" role="document" aria-labelledby="showCallTitle">
       <header class="calldetails-header">
-        <h2 id="showCallTitle">Show Call Details</h2>
+        <h2 id="showCallTitle">Show Students Feedback</h2>
         <button id="showCallCloseBtn" class="calldetails-close" aria-label="Close">✕</button>
       </header>
 
